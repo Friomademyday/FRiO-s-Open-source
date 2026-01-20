@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm/css/xterm.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@xterm/xterm/lib/xterm.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <meta charset="utf-8">
+    <title>Web Terminal Emulator</title>
+    <script src="https://copy.sh/v86/libv86.js"></script>
     <style>
-        body { background: #000; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        #terminal { width: 90vw; height: 90vh; }
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        #screen_container {
+            white-space: pre;
+            font-family: Courier, monospace;
+            line-height: 14px;
+        }
     </style>
 </head>
 <body>
-    <div id="terminal"></div>
+    <div id="screen_container"></div>
     <script>
-        const socket = io();
-        const term = new Terminal({
-            cursorBlink: true,
-            theme: {
-                background: '#1a1a1a'
-            }
-        });
-
-        term.open(document.getElementById('terminal'));
-
-        term.onData(data => {
-            socket.emit('input', data);
-        });
-
-        socket.on('output', (data) => {
-            term.write(data);
+        var emulator = new V86Starter({
+            wasm_path: "https://copy.sh/v86/build/v86.wasm",
+            memory_size: 128 * 1024 * 1024,
+            vga_assets: "https://copy.sh/v86/bios/vgabios.bin",
+            bios: {
+                url: "https://copy.sh/v86/bios/seabios.bin",
+            },
+            bzimage: {
+                url: "https://copy.sh/v86/images/buildroot-bzImage.bin",
+            },
+            autostart: true,
+            screen_container: document.getElementById("screen_container"),
         });
     </script>
 </body>
