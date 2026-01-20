@@ -2,29 +2,48 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>FRiO's Terminal Emulator</title>
+    <title>FRiO's Open Source Terminal</title>
     <script src="https://copy.sh/v86/libv86.js"></script>
     <style>
         body {
             background-color: #000;
-            color: #fff;
-            font-family: monospace;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 20px;
+            overflow: hidden;
+        }
+        #header {
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
         #screen_container {
             white-space: pre;
-            font-family: Courier, monospace;
+            font-family: monospace;
             line-height: 14px;
+            cursor: text;
+        }
+        #loading_msg {
+            color: #ffff00;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div id="screen_container"></div>
-    <script>
+
+<div id="header">
+    <h1>FRiO's Open Source</h1>
+    <div id="loading_msg">SYSTEM STATUS: BOOTING KERNEL... PLEASE WAIT...</div>
+</div>
+
+<div id="screen_container"></div>
+
+<script>
+    window.onload = function() {
         var emulator = new V86Starter({
             wasm_path: "https://copy.sh/v86/build/v86.wasm",
-            memory_size: 128 * 1024 * 1024,
+            memory_size: 64 * 1024 * 1024,
             vga_assets: "https://copy.sh/v86/bios/vgabios.bin",
             bios: {
                 url: "https://copy.sh/v86/bios/seabios.bin",
@@ -35,6 +54,13 @@
             autostart: true,
             screen_container: document.getElementById("screen_container"),
         });
-    </script>
+
+        emulator.add_listener("emulator-ready", function() {
+            document.getElementById("loading_msg").innerHTML = "SYSTEM STATUS: ACTIVE";
+            document.getElementById("loading_msg").style.color = "#00ff00";
+        });
+    };
+</script>
+
 </body>
 </html>
