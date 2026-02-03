@@ -1,66 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>FRiO's Open Source Terminal</title>
-    <script src="https://copy.sh/v86/libv86.js"></script>
-    <style>
-        body {
-            background-color: #000;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 20px;
-            overflow: hidden;
-        }
-        #header {
-            border-bottom: 1px solid #00ff00;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        #screen_container {
-            white-space: pre;
-            font-family: monospace;
-            line-height: 14px;
-            cursor: text;
-        }
-        #loading_msg {
-            color: #ffff00;
-            font-weight: bold;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frio Private Hub</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="sidebar">
+        <h2>Frio.</h2>
+        <nav>
+            <ul>
+                <li class="active">Dashboard</li>
+                <li>History</li>
+                <li>Settings</li>
+            </ul>
+        </nav>
+    </div>
 
-<div id="header">
-    <h1>FRiO's Open Source</h1>
-    <div id="loading_msg">SYSTEM STATUS: BOOTING KERNEL... PLEASE WAIT...</div>
-</div>
+    <div class="main-content">
+        <header>
+            <h1>Virtual Number Manager</h1>
+            <div class="user-profile">Admin: Frio</div>
+        </header>
 
-<div id="screen_container"></div>
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="indicator-group">
+                    <span class="dot red-pulse"></span>
+                    <span>PSG Gateway</span>
+                </div>
+                <small>OFFLINE</small>
+            </div>
+            <div class="stat-card">
+                <div class="indicator-group">
+                    <span class="dot green-solid"></span>
+                    <span>VOiP API</span>
+                </div>
+                <small>ONLINE / CREDIT: $12.50</small>
+            </div>
+        </div>
 
-<script>
-    window.onload = function() {
-        var emulator = new V86Starter({
-            wasm_path: "https://copy.sh/v86/build/v86.wasm",
-            memory_size: 64 * 1024 * 1024,
-            vga_assets: "https://copy.sh/v86/bios/vgabios.bin",
-            bios: {
-                url: "https://copy.sh/v86/bios/seabios.bin",
-            },
-            bzimage: {
-                url: "https://copy.sh/v86/images/buildroot-bzImage.bin",
-            },
-            autostart: true,
-            screen_container: document.getElementById("screen_container"),
-        });
+        <section class="number-grid">
+            <div class="method-card" id="psg-card">
+                <div class="card-header">Method 1: Private Gateway</div>
+                <div class="card-body">
+                    <p class="phone-display">+1 (555) PSG-LINE</p>
+                    <p class="status-text warning">Waiting for hardware connection...</p>
+                    <button class="btn-primary" disabled>Fetch From PSG</button>
+                </div>
+            </div>
 
-        emulator.add_listener("emulator-ready", function() {
-            document.getElementById("loading_msg").innerHTML = "SYSTEM STATUS: ACTIVE";
-            document.getElementById("loading_msg").style.color = "#00ff00";
-        });
-    };
-</script>
+            <div class="method-card" id="voip-card">
+                <div class="card-header">Method 2: VOiP (Premium)</div>
+                <div class="card-body">
+                    <p class="phone-display">+1 (888) VOIP-HUB</p>
+                    <p class="status-text success">Ready to receive codes</p>
+                    <button class="btn-primary">Generate VOiP Number</button>
+                </div>
+            </div>
+        </section>
 
+        <section class="log-container">
+            <h3>Live OTP Stream</h3>
+            <div class="log-entry">
+                <span class="time">12:05</span>
+                <span class="source voip">VOIP</span>
+                <span class="msg">WhatsApp Verification Code: <strong>[ 482-991 ]</strong></span>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
